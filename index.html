@@ -13,9 +13,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url('https://i.ibb.co/1YvFwFpv/20260424-163955.jpg') no-repeat center center;
+    background: url('https://i.ibb.co/b5BZp81N/20260424-163950.jpg') no-repeat center center;
     background-size: cover;
     position: relative;
+    overflow: hidden;
   }
   
   body::before {
@@ -25,22 +26,93 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(2px);
     z-index: 0;
   }
   
+  /* 动态气泡 */
+  .bubble {
+    position: fixed;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    animation: float-up linear infinite;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  @keyframes float-up {
+    0% {
+      transform: translateY(100vh) scale(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.8;
+    }
+    90% {
+      opacity: 0.6;
+    }
+    100% {
+      transform: translateY(-100px) scale(1);
+      opacity: 0;
+    }
+  }
+  
+  /* 动态星星 */
+  .star {
+    position: fixed;
+    font-size: 20px;
+    animation: twinkle 2s ease-in-out infinite;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+  }
+  
+  /* 动态爱心 */
+  .heart {
+    position: fixed;
+    font-size: 18px;
+    animation: heart-float 4s ease-in-out infinite;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  @keyframes heart-float {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
+    50% { transform: translateY(-20px) scale(1.15); opacity: 1; }
+  }
+  
+  /* 动态云朵 */
+  .cloud {
+    position: fixed;
+    font-size: 28px;
+    animation: cloud-drift 8s ease-in-out infinite;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  
+  @keyframes cloud-drift {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(30px); }
+  }
+  
   .container {
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.93);
     border-radius: 24px;
     padding: 50px 45px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
     text-align: center;
     width: 90%;
     max-width: 520px;
     position: relative;
     z-index: 10;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
   }
   
   .icon {
@@ -54,7 +126,7 @@
     margin-bottom: 8px;
     font-size: 26px;
     font-weight: 700;
-    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+    background: linear-gradient(135deg, #ff9f43 0%, #ee5a24 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -80,12 +152,12 @@
     outline: none;
     transition: all 0.3s;
     font-family: inherit;
-    background: rgba(255,255,255,0.95);
+    background: rgba(255,255,255,0.97);
   }
   
   input:focus {
-    border-color: #ff6b9d;
-    box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.15);
+    border-color: #ff9f43;
+    box-shadow: 0 0 0 4px rgba(255, 159, 67, 0.15);
   }
   
   .input-icon {
@@ -101,7 +173,7 @@
     width: 100%;
     padding: 16px;
     font-size: 17px;
-    background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+    background: linear-gradient(135deg, #ff9f43 0%, #ee5a24 100%);
     color: white;
     border: none;
     border-radius: 14px;
@@ -113,12 +185,12 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    box-shadow: 0 4px 15px rgba(196, 69, 105, 0.35);
+    box-shadow: 0 4px 15px rgba(238, 90, 36, 0.35);
   }
   
   button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(196, 69, 105, 0.45);
+    box-shadow: 0 6px 20px rgba(238, 90, 36, 0.45);
   }
   
   button:active {
@@ -166,9 +238,7 @@
   }
   
   @media (max-width: 480px) {
-    .container {
-      padding: 35px 25px;
-    }
+    .container { padding: 35px 25px; }
     h2 { font-size: 22px; }
     input, button { padding: 14px 16px; }
     #result { font-size: 17px; }
@@ -176,6 +246,36 @@
 </style>
 </head>
 <body>
+  <!-- 动态气泡 -->
+  <div class="bubble" style="left:5%; width:20px; height:20px; animation-duration:6s; animation-delay:0s;"></div>
+  <div class="bubble" style="left:15%; width:14px; height:14px; animation-duration:8s; animation-delay:1s;"></div>
+  <div class="bubble" style="left:25%; width:18px; height:18px; animation-duration:7s; animation-delay:2s;"></div>
+  <div class="bubble" style="left:35%; width:12px; height:12px; animation-duration:9s; animation-delay:0.5s;"></div>
+  <div class="bubble" style="left:45%; width:22px; height:22px; animation-duration:6.5s; animation-delay:3s;"></div>
+  <div class="bubble" style="left:55%; width:16px; height:16px; animation-duration:7.5s; animation-delay:1.5s;"></div>
+  <div class="bubble" style="left:65%; width:10px; height:10px; animation-duration:8.5s; animation-delay:2.5s;"></div>
+  <div class="bubble" style="left:75%; width:20px; height:20px; animation-duration:6s; animation-delay:4s;"></div>
+  <div class="bubble" style="left:85%; width:14px; height:14px; animation-duration:7s; animation-delay:0.8s;"></div>
+  <div class="bubble" style="left:92%; width:18px; height:18px; animation-duration:8s; animation-delay:3.5s;"></div>
+  
+  <!-- 动态星星 -->
+  <span class="star" style="left:8%; top:15%; animation-delay:0s;">✨</span>
+  <span class="star" style="left:88%; top:20%; animation-delay:0.5s;">⭐</span>
+  <span class="star" style="left:12%; top:70%; animation-delay:1s;">✨</span>
+  <span class="star" style="left:85%; top:75%; animation-delay:1.5s;">⭐</span>
+  <span class="star" style="left:50%; top:10%; animation-delay:0.3s;">✨</span>
+  <span class="star" style="left:70%; top:85%; animation-delay:0.8s;">⭐</span>
+  
+  <!-- 动态爱心 -->
+  <span class="heart" style="left:3%; top:40%; animation-delay:0s;">💕</span>
+  <span class="heart" style="left:93%; top:45%; animation-delay:1s;">💕</span>
+  <span class="heart" style="left:20%; top:88%; animation-delay:2s;">💖</span>
+  <span class="heart" style="left:78%; top:8%; animation-delay:1.5s;">💗</span>
+  
+  <!-- 动态云朵 -->
+  <span class="cloud" style="left:10%; top:25%;">☁️</span>
+  <span class="cloud" style="left:80%; top:60%;">☁️</span>
+  
   <div class="container">
     <span class="icon">🔍</span>
     <h2>KOL 名字查询</h2>
