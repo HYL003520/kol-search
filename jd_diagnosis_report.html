@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>京东运营诊断报告 — 爱宝惟医疗器械专营店</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+  .hero {
+    background: linear-gradient(135deg, #0f1629 0%, #1e3a5f 50%, #2d6a8f 100%);
+    color: white;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.08)"/><circle cx="60" cy="40" r="1.5" fill="rgba(255,255,255,0.06)"/><circle cx="80" cy="70" r="2.5" fill="rgba(255,255,255,0.05)"/></svg>');
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #4fc3f7, #81d4fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero .subtitle {
+    font-size: 16px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 6px;
+  }
+  .hero .date {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+  }
+  .hero .badge-row {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .badge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+  }
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+  }
+  .section {
+    background: white;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .section-header {
+    padding: 20px 28px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-icon {
+    font-size: 22px;
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+  .section-num {
+    font-size: 11px;
+    background: linear-gradient(135deg, #2d6a8f, #1e3a5f);
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-body {
+    padding: 24px 28px;
+  }
+  .highlight-box {
+    background: linear-gradient(135deg, #fff8e1, #fff3cd);
+    border-left: 4px solid #ff9800;
+    border-radius: 0 10px 10px 0;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #5d4037;
+  }
+  .highlight-box strong {
+    color: #e65100;
+  }
+  .score-card {
+    background: linear-gradient(135deg, #e3f2fd, #e8f5e9);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .score-card h4 {
+    font-size: 14px;
+    color: #1565c0;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .score-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #ddd;
+    font-size: 14px;
+  }
+  .score-row:last-child { border-bottom: none; }
+  .score-label { color: #555; }
+  .score-value { font-weight: 600; color: #1a1a2e; }
+  .score-value.red { color: #e53935; }
+  .score-value.green { color: #2e7d32; }
+  .score-value.orange { color: #ef6c00; }
+  .score-value.blue { color: #1565c0; }
+  .problem-tag {
+    display: inline-block;
+    background: #ffebee;
+    color: #c62828;
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+  .opportunity-tag {
+    display: inline-block;
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+  .comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 12px;
+  }
+  .comp-table th {
+    background: #1e3a5f;
+    color: white;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .comp-table th:first-child { border-radius: 8px 0 0 0; }
+  .comp-table th:last-child { border-radius: 0 8px 0 0; }
+  .comp-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+  }
+  .comp-table tr:nth-child(even) td { background: #f8fafc; }
+  .comp-table tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+  .comp-table tr:last-child td:last-child { border-radius: 0 0 8px 0; }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .highlight-red { background: #ffebee !important; }
+  .highlight-yellow { background: #fff8e1 !important; }
+  .highlight-green { background: #e8f5e9 !important; }
+  .highlight-blue { background: #e3f2fd !important; }
+  .tactic-card {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    border-left: 4px solid #2d6a8f;
+  }
+  .tactic-card.alt { border-left-color: #ef6c00; }
+  .tactic-card.tip { border-left-color: #2e7d32; }
+  .tactic-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tactic-title .num {
+    background: #2d6a8f;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .tactic-title .num.orange { background: #ef6c00; }
+  .tactic-title .num.green { background: #2e7d32; }
+  .tactic-body { font-size: 14px; color: #444; }
+  .tactic-body ul { margin: 8px 0 0 18px; }
+  .tactic-body li { margin-bottom: 4px; }
+  .before-after {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .ba-box {
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 13px;
+  }
+  .ba-box.before { background: #ffebee; border: 1px solid #ffcdd2; }
+  .ba-box.after { background: #e8f5e9; border: 1px solid #c8e6c9; }
+  .ba-label {
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .ba-box.before .ba-label { color: #c62828; }
+  .ba-box.after .ba-label { color: #2e7d32; }
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .summary-table th {
+    background: #1e3a5f;
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .summary-table th:first-child { border-radius: 8px 0 0 0; }
+  .summary-table th:last-child { border-radius: 0 8px 0 0; }
+  .summary-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+  }
+  .summary-table tr:nth-child(even) td { background: #f8fafc; }
+  .summary-table tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+  .summary-table tr:last-child td:last-child { border-radius: 0 0 8px 0; }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .core-quote {
+    background: linear-gradient(135deg, #1e3a5f, #0f1629);
+    color: white;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .core-quote::before {
+    content: '"';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    font-size: 120px;
+    color: rgba(255,255,255,0.05);
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+  .core-quote p {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.6;
+    position: relative;
+  }
+  .core-quote .from {
+    margin-top: 12px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+  }
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ddd, transparent);
+    margin: 20px 0;
+  }
+  .footer {
+    text-align: center;
+    padding: 30px;
+    color: #999;
+    font-size: 12px;
+  }
+  @media (max-width: 600px) {
+    .comp-table, .summary-table { font-size: 12px; }
+    .comp-table th, .comp-table td, .summary-table th, .summary-table td { padding: 8px 6px; }
+    .before-after { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 24px; }
+    .section-body { padding: 16px; }
+    .section-header { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>京东运营诊断报告</h1>
+  <div class="subtitle">爱宝惟医疗器械专营店 × 爱宝惟旗舰店</div>
+  <div class="date">2026年5月 · 旁观者视角分析</div>
+  <div class="badge-row">
+    <span class="badge">🏪 企业店铺诊断</span>
+    <span class="badge">🔍 竞品分析</span>
+    <span class="badge">🎯 差异性打法</span>
+    <span class="badge">📈 GMV优化</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 核心结论 -->
+  <div class="core-quote">
+    <p>从「卖泵」变成「卖闭环血糖管理方案」——<br>这是爱宝惟对比微泰官方旗舰店的唯一出路</p>
+    <div class="from">— 小A · 旁观者诊断核心结论</div>
+  </div>
+
+  <!-- 一、现状诊断 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">1</span>
+      <span class="section-icon">🔍</span>
+      <span class="section-title">爱宝惟现状诊断</span>
+    </div>
+    <div class="section-body">
+      <div class="score-card">
+        <h4>📊 关键数据一览</h4>
+        <div class="score-row">
+          <span class="score-label">关注人数</span>
+          <span class="score-value blue">3,087</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">店铺评分</span>
+          <span class="score-value green">4.6星</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">评论数</span>
+          <span class="score-value">1,572条</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">客单价</span>
+          <span class="score-value orange">¥29,800</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">近30天GMV</span>
+          <span class="score-value blue">约 ¥72.6万</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">访客数</span>
+          <span class="score-value">5,788</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">主推产品</span>
+          <span class="score-value">微泰贴敷式泵</span>
+        </div>
+      </div>
+
+      <div class="highlight-box">
+        <strong>⚠️ 核心问题：</strong>爱宝惟的差异化是"闭环方案"，但这个价值藏在赠品里——"20套耗材 + 2个动态 + 血糖手表"。用户感知到的是"买泵送东西"，而不是"买了闭环血糖管理方案"。
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <div style="font-weight:700; margin-bottom:10px;">🚨 四大运营问题</div>
+        <span class="problem-tag">定位模糊</span>
+        <span class="problem-tag">主图没有闭环词</span>
+        <span class="problem-tag">赠品呈现太弱</span>
+        <span class="problem-tag">客服专业度不足</span>
+      </div>
+
+      <div style="margin-top: 16px;">
+        <div style="font-weight:700; margin-bottom:10px;">🌟 潜在机会</div>
+        <span class="opportunity-tag">血糖手表是差异化载体</span>
+        <span class="opportunity-tag">CGM联动是技术壁垒</span>
+        <span class="opportunity-tag">闭环调糖服务可包装</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="tactic-card">
+        <div class="tactic-title"><span class="num">①</span> 店铺定位模糊</div>
+        <div class="tactic-body">
+          爱宝惟主推"微泰贴敷泵"，但详情页没有说清楚闭环方案是什么。CGM联动是闭环的关键，却藏在赠品清单里。
+          <ul>
+            <li>用户进来不知道"闭环"是什么，也不知道为什么比普通泵好</li>
+            <li>搜索"胰岛素泵 闭环"时，爱宝惟的展现弱于竞品（竞品鑫丹娜/悦泵直接标题打"闭环"）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tactic-card alt">
+        <div class="tactic-title"><span class="num orange">②</span> 赠品组合没有包装</div>
+        <div class="tactic-body">
+          "20套耗材 + 2个动态 + 血糖手表"这个赠品其实很强大——血糖手表是CGM联动方案的一部分，但呈现方式是清单罗列，用户感知价值低。
+          <ul>
+            <li>应该打包成"闭环升级套餐"而不是赠品清单</li>
+            <li>血糖手表的价值没有价格锚点，用户不知道它值多少钱</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tactic-card">
+        <div class="tactic-title"><span class="num">③</span> 标题/主图缺闭环关键词</div>
+        <div class="tactic-body">
+          竞品在标题里打"闭环"，爱宝惟没有。搜索流量被分流。
+        </div>
+      </div>
+
+      <div class="tactic-card alt">
+        <div class="tactic-title"><span class="num orange">④</span> 客服转化力不足</div>
+        <div class="tactic-body">
+          高客单价（¥29,800）医疗器械，客服需要能回答"闭环怎么调糖"、"和丹纳/微泰比哪个好"。通用话术无法转化高意向用户。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 二、竞品分析 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">2</span>
+      <span class="section-icon">📊</span>
+      <span class="section-title">竞品分析 — 7大玩家同台</span>
+    </div>
+    <div class="section-body">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>品牌</th>
+            <th>店铺</th>
+            <th>评分</th>
+            <th>关注</th>
+            <th>月GMV</th>
+            <th>核心优势</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-blue">
+            <td><strong>微泰</strong></td>
+            <td>微泰医疗官方旗舰店</td>
+            <td>5星</td>
+            <td><strong>47.9万</strong></td>
+            <td>6-8万</td>
+            <td>无导管贴敷式，IPX8防水，品牌力最强</td>
+          </tr>
+          <tr>
+            <td><strong>艾派乐</strong></td>
+            <td>艾派乐官方旗舰店</td>
+            <td>5星</td>
+            <td>19.4万</td>
+            <td>10-25万</td>
+            <td>瑞士马达，48段基础率，闭环</td>
+          </tr>
+          <tr class="highlight-yellow">
+            <td><strong>丹纳</strong></td>
+            <td>丹纳官方旗舰店</td>
+            <td>4.4星</td>
+            <td>3.4万</td>
+            <td>25-50万</td>
+            <td>进口品牌，闭环算法，GMV最高</td>
+          </tr>
+          <tr>
+            <td><strong>鑫丹娜</strong></td>
+            <td>鑫丹娜官方旗舰店</td>
+            <td>4.7星</td>
+            <td>1.1万</td>
+            <td>10-25万</td>
+            <td>60套耗材 + <strong>10年质保</strong></td>
+          </tr>
+          <tr>
+            <td><strong>润通宝</strong></td>
+            <td>润通宝官方旗舰店</td>
+            <td>4.5星</td>
+            <td>2.0万</td>
+            <td>6-8万</td>
+            <td><strong>¥9800低客单价</strong>，10年质保</td>
+          </tr>
+          <tr class="highlight-red">
+            <td><strong>爱宝惟</strong></td>
+            <td>爱宝惟医疗器械专营店</td>
+            <td>4.6星</td>
+            <td>3,087</td>
+            <td>约72.6万</td>
+            <td>微泰贴敷泵 + 血糖手表 + 调糖服务</td>
+          </tr>
+          <tr>
+            <td><strong>悦泵</strong></td>
+            <td>悦泵旗舰店</td>
+            <td>4.0星</td>
+            <td>49</td>
+            <td>6-8万</td>
+            <td>全触摸屏，0.01U精度</td>
+          </tr>
+          <tr>
+            <td><strong>移宇</strong></td>
+            <td>TRCO医疗器械海外专营店</td>
+            <td>3.0星</td>
+            <td>无</td>
+            <td>6-8万</td>
+            <td>全球最轻13.8g，IPX8防水，无质保</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="divider"></div>
+
+      <div class="highlight-box">
+        <strong>📌 关键洞察：</strong>爱宝惟没有品牌优势（不像微泰/丹纳有品牌力），也没有价格优势（润通宝¥9800更低）。唯一出路是<strong>靠"闭环方案差异化"打细分市场</strong>——这是微泰官方都不做的组合。
+      </div>
+
+      <div class="tactic-card tip">
+        <div class="tactic-title"><span class="num green">✓</span> 爱宝惟的护城河在哪里？</div>
+        <div class="tactic-body">
+          <strong>微泰泵 + 血糖手表 + 闭环调糖服务</strong>——这是竞品里唯一的闭环+手表组合。护城河不在泵本身，而在"泵+手表联动"的闭环体验。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 三、差异性打法 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">3</span>
+      <span class="section-icon">🎯</span>
+      <span class="section-title">差异性打法 — 如何扩大优势</span>
+    </div>
+    <div class="section-body">
+
+      <!-- 打法1 -->
+      <div class="tactic-card">
+        <div class="tactic-title"><span class="num">1</span> 标题升级：抢占"闭环"搜索流量</div>
+        <div class="tactic-body">
+          <div class="before-after">
+            <div class="ba-box before">
+              <div class="ba-label">✗ 现在</div>
+              爱宝惟 胰岛素泵 贴敷式 官方正品
+            </div>
+            <div class="ba-box after">
+              <div class="ba-label">✓ 建议</div>
+              爱宝惟 微泰贴敷式泵 送血糖手表 闭环调糖服务 胰岛素泵
+            </div>
+          </div>
+          <ul style="margin-top:12px;">
+            <li>核心词：<strong>微泰贴敷泵 / 闭环 / 血糖手表 / 调糖服务</strong></li>
+            <li>搜索"胰岛素泵 闭环"的用户转化率更高（需求明确）</li>
+            <li>和爱宝惟旗舰店（另一家店）标题也要差异化，避免自己打自己</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 打法2 -->
+      <div class="tactic-card alt">
+        <div class="tactic-title"><span class="num orange">2</span> 主图重新设计：强化闭环心智</div>
+        <div class="tactic-body">
+          <ul>
+            <li><strong>第1张：</strong>产品实物图 + "无导管·贴敷式·20克"（直观差异）</li>
+            <li><strong>第2张：</strong>闭环示意图（泵+动态+手表联动），展示方案完整性</li>
+            <li><strong>第3张：</strong>赠品全家福（20套耗材+2个动态+血糖手表），标注价值</li>
+            <li><strong>第4张：</strong>与CGM联动的APP截图，直观展示闭环效果</li>
+            <li><strong>第5张：</strong>4年质保承诺，消除购买顾虑</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 打法3 -->
+      <div class="tactic-card">
+        <div class="tactic-title"><span class="num">3</span> 详情页重做：闭环价值可视化</div>
+        <div class="tactic-body">
+          闭环的核心价值是"血糖更稳、减少扎手指"。现在详情页没有把这个说清楚。
+          <ul>
+            <li>展示"佩戴7天血糖曲线"对比图（闭环 vs 手动）</li>
+            <li>展示"减少扎手指次数"的数据（如：从每天6次 → 每天2次）</li>
+            <li>展示调糖服务流程：买泵 → 联系客服 → 远程调糖 → 血糖稳定</li>
+            <li>增加竞品对比页（见打法4）</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 打法4 -->
+      <div class="tactic-card alt">
+        <div class="tactic-title"><span class="num orange">4</span> 主动做竞品对比页（用户必看）</div>
+        <div class="tactic-body">
+          用户买之前一定会对比丹纳/微泰/艾派乐。爱宝惟主动做对比表：
+          <ul>
+            <li>vs <strong>微泰</strong>：同款贴敷泵，我们多送血糖手表+调糖服务（微泰官方不送手表）</li>
+            <li>vs <strong>丹纳</strong>：我们有导管，丹纳有导管；我们多送血糖手表</li>
+            <li>vs <strong>鑫丹娜</strong>：我们是贴敷式无导管，他们是有导管；我们多送血糖手表</li>
+            <li>vs <strong>润通宝</strong>：¥9800价格低但是有导管，我们是贴敷式+闭环方案</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 打法5 -->
+      <div class="tactic-card tip">
+        <div class="tactic-title"><span class="num green">5</span> 客服专业化：培养"调糖顾问"人设</div>
+        <div class="tactic-body">
+          <ul>
+            <li>提炼"闭环泵 vs 普通泵"的3个核心差异，客服必须会用</li>
+            <li>准备"和丹XX/微泰/艾派乐比哪个好"的标准化话术</li>
+            <li>培养1-2名"调糖顾问"人设的客服，提升专业信任感</li>
+            <li>高客单价用户可以引导私信，进一步转化</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 打法6 -->
+      <div class="tactic-card alt">
+        <div class="tactic-title"><span class="num orange">6</span> 推广优化：扩大搜索流量</div>
+        <div class="tactic-body">
+          搜索点击率35-40%，说明用户主动搜索意向强，但爱宝惟访客数(5788) vs 竞品丹纳(4000-6000)没有拉开差距。
+          <ul>
+            <li>优化标题关键词（参考打法1），提升自然搜索排名</li>
+            <li>增加京东快车/京选店铺付费推广（精准覆盖"胰岛素泵"搜索词）</li>
+            <li>设置赠品倒计时/限时优惠，引导加购决策</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 四、总结优化表 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">4</span>
+      <span class="section-icon">📋</span>
+      <span class="section-title">优化清单 — 从问题到执行</span>
+    </div>
+    <div class="section-body">
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>维度</th>
+            <th>当前状态</th>
+            <th>优化方向</th>
+            <th>优先级</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>差异化定位</strong></td>
+            <td>主推微泰贴敷泵</td>
+            <td><strong>"闭环方案提供商"</strong>，区别于单卖泵的竞品</td>
+            <td><span style="color:#c62828;font-weight:700;">★★★</span></td>
+          </tr>
+          <tr>
+            <td><strong>标题关键词</strong></td>
+            <td>无"闭环"词</td>
+            <td>加入"闭环/血糖手表/调糖服务"核心词</td>
+            <td><span style="color:#c62828;font-weight:700;">★★★</span></td>
+          </tr>
+          <tr>
+            <td><strong>主图设计</strong></td>
+            <td>参数展示为主</td>
+            <td>突出"无导管+手表赠品+调糖服务"闭环套餐</td>
+            <td><span style="color:#e65100;font-weight:700;">★★</span></td>
+          </tr>
+          <tr>
+            <td><strong>详情页</strong></td>
+            <td>功能参数</td>
+            <td>增加闭环效果图、血糖曲线、竞品对比、调糖流程</td>
+            <td><span style="color:#e65100;font-weight:700;">★★</span></td>
+          </tr>
+          <tr>
+            <td><strong>赠品呈现</strong></td>
+            <td>清单式罗列</td>
+            <td>打包成"闭环升级套餐"，标注血糖手表价值</td>
+            <td><span style="color:#e65100;font-weight:700;">★★</span></td>
+          </tr>
+          <tr>
+            <td><strong>客服</strong></td>
+            <td>通用响应</td>
+            <td>专业调糖服务咨询，竞品对比话术</td>
+            <td><span style="color:#2e7d32;font-weight:700;">★</span></td>
+          </tr>
+          <tr>
+            <td><strong>付费推广</strong></td>
+            <td>自然流量为主</td>
+            <td>京东快车精准推广"胰岛素泵"搜索词</td>
+            <td><span style="color:#2e7d32;font-weight:700;">★</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 核心结论 -->
+  <div class="core-quote">
+    <p>从"卖泵"<br>→ "卖闭环血糖管理方案"</p>
+    <div class="from">核心一句话 · 爱宝惟差异化战略</div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>京东运营诊断报告 · 爱宝惟医疗器械专营店 × 爱宝惟旗舰店</p>
+  <p style="margin-top:4px; opacity:0.6;">2026年5月 · 旁观者视角 | 仅供参考，不保证对错</p>
+</div>
+
+</body>
+</html>
